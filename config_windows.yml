@@ -1,0 +1,9 @@
+# https://taskfile.dev
+
+version: '3'
+
+env:
+  SHELL: './busybox64 bash'
+vars:
+  GREETING: This is Windows!
+

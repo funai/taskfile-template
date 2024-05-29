@@ -1,0 +1,62 @@
+# https://taskfile.dev
+
+version: '3'
+
+vars:
+  GREETING: Hello, World!
+  BASE30: 'deno run bin/base30.ts'
+  TOUCH: 'deno run --allow-read --allow-write bin/mkfile.ts'
+
+includes:
+  config: ./config_{{OS}}.yml
+
+tasks:
+  default:
+    cmds:
+      - echo {{.GREETING}}
+    silent: true
+
+  new:
+    vars:
+      RAND: '{{.BASE30}} --caps 10'
+      DIR: './'
+    cmds:
+      - |-
+        while true; do
+          fn=$({{.RAND}}).md
+          ! [ -e {{.DIR}}$fn ] && break || continue
+        done
+        echo "New file: ${fn}"
+        {{.TOUCH}} {{.DIR}}$fn
+
+  new:one:
+    vars:
+      RAND: '{{.BASE30}} --caps 10'
+      DIR: './'
+    cmds:
+      - |-
+        while true; do
+          while true; do
+            fn=$({{.RAND}}).md
+            ! [ -e {{.DIR}}$fn ] && break || continue
+          done
+          printf "Add file: ${fn} (y/n)? "
+          read answer
+          case ${answer:0:1} in
+          y | Y)
+            break
+            ;;
+          *)
+            continue
+            ;;
+          esac
+        done
+        {{.TOUCH}} {{.DIR}}$fn
+
+  shell:help:
+    cmds:
+      - time pwd
+      - dirs
+      - perl -v
+      - '{{.BASE30}} --caps 30'
+      - echo {{.TOUCH}}
