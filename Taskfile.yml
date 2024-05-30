@@ -53,7 +53,7 @@ tasks:
         done
         {{.TOUCH}} {{.DIR}}$fn
 
-  shell:help:
+  shell:test:
     cmds:
       - time pwd
       - dirs
