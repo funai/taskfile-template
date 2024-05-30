@@ -59,7 +59,7 @@ function main() {
   if (parsedArgs._.length > 0) {
     len = parseInt(parsedArgs._[0]);
   } else if (parsedArgs.length) {
-    len = parseInt(parsedArgs.length, 10);
+    len = parseInt(parsedArgs.length);
   }
 
   if (isNaN(len)) {
