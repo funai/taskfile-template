@@ -20,6 +20,7 @@ tasks:
     vars:
       RAND: '{{.BASE30}} --caps 10'
       DIR: './'
+    silent: true
     cmds:
       - |-
         while true; do
@@ -33,6 +34,7 @@ tasks:
     vars:
       RAND: '{{.BASE30}} --caps 10'
       DIR: './'
+    silent: true
     cmds:
       - |-
         while true; do
