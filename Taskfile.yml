@@ -29,7 +29,7 @@ tasks:
         echo "New file: ${fn}"
         {{.TOUCH}} {{.DIR}}$fn
 
-  new:one:
+  new:ask:
     vars:
       RAND: '{{.BASE30}} --caps 10'
       DIR: './'
