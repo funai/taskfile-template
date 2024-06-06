@@ -48,15 +48,9 @@ function getRandomStr(charset: string[], len: number): string {
   if (isNaN(len) || len <= 0) throw new InvalidLengthError("Length must be a positive number.");
 
   let randStr = "";
-  let numUsed = 0;
-  const numMax = Math.floor(len / 2);
 
   while (randStr.length < len) {
     const choice = getRandomItem(charset);
-    if (choice.match(/[0-9]/)) {
-      numUsed++;
-      if (numUsed > numMax) continue;
-    }
     randStr += choice;
   }
 
