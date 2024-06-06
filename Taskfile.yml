@@ -4,6 +4,7 @@ version: '3'
 
 vars:
   GREETING: Hello, World!
+  RANDSTR: 'deno run bin/randStr.ts'
   BASE30: 'deno run bin/base30.ts'
   TOUCH: 'deno run --allow-read --allow-write bin/mkfile.ts'
 
@@ -55,6 +56,32 @@ tasks:
         done
         {{.TOUCH}} {{.DIR}}$fn
 
+  new:pick:
+    vars:
+      RAND: '{{.RANDSTR}} -ln 8 -t8 |fzf'
+      DIR: './'
+    silent: true
+    cmds:
+      - |-
+        while true; do
+          while true; do
+            fn=$({{.RAND}}).md
+            ! [ -e {{.DIR}}$fn ] && break || read -p "'${fn}' already exists. Hit 'Enter' to retry."
+            continue
+          done
+          printf "Add file: ${fn} ? (y/n) "
+          read answer
+          case ${answer:0:1} in
+          y | Y)
+            break
+            ;;
+          *)
+            continue
+            ;;
+          esac
+        done
+        {{.TOUCH}} {{.DIR}}$fn
+      
   shell:test:
     cmds:
       - time pwd
