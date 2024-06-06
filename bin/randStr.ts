@@ -1,13 +1,6 @@
 #!/usr/bin/env -S deno run --ext=ts
 import { parseArgs } from "jsr:@std/cli/parse-args";
 
-class InvalidCharsetError extends Error {
-  constructor(message: string) {
-    super(message);
-    this.name = "InvalidCharsetError";
-  }
-}
-
 class InvalidLengthError extends Error {
   constructor(message: string) {
     super(message);
@@ -39,7 +32,10 @@ function getCharset(lower: boolean, upper: boolean, num: boolean, symbol: boolea
   if (num) charset += numChar;
   if (symbol) charset += symChar;
 
-  if (charset === "") throw new InvalidCharsetError("Charset not specified (lower/upper/number/symbol).");
+  // set the default charset to lowerChar + numChar if no option is provided.
+  if (charset === "") {
+    charset = lowerChar + numChar;
+  }
 
   return charset.split("");
 }
