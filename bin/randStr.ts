@@ -20,7 +20,12 @@ function getRandomItem<T>(items: T[]): T {
   return items[index];
 }
 
-function getCharset(lower: boolean, upper: boolean, num: boolean, symbol: boolean): string[] {
+function getCharset(
+  lower: boolean,
+  upper: boolean,
+  num: boolean,
+  symbol: boolean,
+): string[] {
   const lowerChar = "acdefghjkmnpqrtvwxyz";
   const upperChar = "ACDEFGHJKMNPQRTVWXYZ";
   const numChar = "0123456789";
@@ -41,7 +46,9 @@ function getCharset(lower: boolean, upper: boolean, num: boolean, symbol: boolea
 }
 
 function getRandomStr(charset: string[], len: number): string {
-  if (isNaN(len) || len <= 0) throw new InvalidLengthError("Length must be a positive number.");
+  if (isNaN(len) || len <= 0) {
+    throw new InvalidLengthError("Length must be a positive number.");
+  }
 
   let randStr = "";
 
@@ -84,8 +91,32 @@ function main(): string {
   }
 
   try {
-    const charset = getCharset(opts.lower, opts.upper, opts.number, opts.symbol);
-    [...Array(opts.times)].map(() => console.log(getRandomStr(charset, len)));
+    const charset = getCharset(
+      opts.lower,
+      opts.upper,
+      opts.number,
+      opts.symbol,
+    );
+    for (const i of Array(opts.times)) {
+      let randomStr = "";
+
+      while (true) {
+        randomStr = getRandomStr(charset, len);
+
+        if (
+          (opts.lower && !randomStr.match(/[a-z]/)) ||
+          (opts.upper && !randomStr.match(/[A-Z]/)) ||
+          (opts.number && !randomStr.match(/[0-9]/)) ||
+          (opts.symbol && !randomStr.match(/[^A-Za-z0-9]/))
+        ) {
+          continue;
+        }
+
+        break;
+      }
+
+      console.log(randomStr);
+    }
   } catch (e) {
     if (e instanceof InvalidCharsetError || e instanceof InvalidLengthError) {
       console.error(e.message);
