@@ -15,8 +15,8 @@ async function main() {
     },
   });
 
-  let filePaths: string[] = '';
-  let filePath: string = '';
+  let filePaths: string[] = "";
+  let filePath: string = "";
   if (parsedArgs._.length > 1) {
     filePaths = parsedArgs._;
   } else {
@@ -44,4 +44,3 @@ async function main() {
 if (import.meta.main) {
   main();
 }
-
